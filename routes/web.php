@@ -7,85 +7,130 @@ use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\SpoKeperawatanController;
 use App\Http\Controllers\DataPersonalController;
 use App\Http\Controllers\SertifikatController;
-use Illuminate\Support\Facades\Storage;
 
+// Halaman utama diarahkan ke login
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+// Login dapat diakses tanpa autentikasi
+Route::get('/login', [AuthController::class, 'showLogin'])
+    ->name('login');
+
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+// Seluruh fitur aplikasi wajib login
+Route::middleware('auth')->group(function () {
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
 
-Route::get('/komite', [KomiteController::class, 'index'])->name('komite.index');
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::get('/komite/mutu', function () {
-    return view('komite.mutu');
-})->name('komite.mutu');
+    // Menu Komite Keperawatan
+    Route::get('/komite', [KomiteController::class, 'index'])
+        ->name('komite.index');
 
-Route::get('/komite/kredensial', function () {
-    return view('komite.kredensial');
-})->name('komite.kredensial');
+    Route::get('/komite/mutu', function () {
+        return view('komite.mutu');
+    })->name('komite.mutu');
 
-Route::get('/komite/etik', function () {
-    return view('komite.etik');
-})->name('komite.etik');
+    Route::get('/komite/kredensial', function () {
+        return view('komite.kredensial');
+    })->name('komite.kredensial');
 
-Route::get('/panduan', [PanduanController::class, 'index'])->name('panduan.index');
-Route::get('/panduan/create', [PanduanController::class, 'create'])->name('panduan.create');
-Route::post('/panduan', [PanduanController::class, 'store'])->name('panduan.store');
-Route::get('/panduan/{panduan}/edit', [PanduanController::class, 'edit'])->name('panduan.edit');
-Route::put('/panduan/{panduan}', [PanduanController::class, 'update'])->name('panduan.update');
-Route::delete('/panduan/{panduan}', [PanduanController::class, 'destroy'])->name('panduan.destroy');
+    Route::get('/komite/etik', function () {
+        return view('komite.etik');
+    })->name('komite.etik');
 
-Route::get('/spo', [SpoKeperawatanController::class, 'index'])->name('spo.index');
-Route::get('/spo/create', [SpoKeperawatanController::class, 'create'])->name('spo.create');
-Route::post('/spo', [SpoKeperawatanController::class, 'store'])->name('spo.store');
-Route::get('/spo/{spo}/edit', [SpoKeperawatanController::class, 'edit'])->name('spo.edit');
-Route::put('/spo/{spo}', [SpoKeperawatanController::class, 'update'])->name('spo.update');
-Route::delete('/spo/{spo}', [SpoKeperawatanController::class, 'destroy'])->name('spo.destroy');
+        // Panduan
+    // Semua pengguna yang sudah login boleh membaca
+    Route::get('/panduan', [PanduanController::class, 'index'])
+        ->name('panduan.index');
 
-Route::get('/data-personal', [DataPersonalController::class, 'index'])
-    ->middleware('auth')
-    ->name('data-personal.index');
+    // Hanya admin yang boleh mengelola Panduan
+    Route::middleware('admin')->group(function () {
+        Route::get('/panduan/create', [PanduanController::class, 'create'])
+            ->name('panduan.create');
 
-Route::get('/data-personal/create', [DataPersonalController::class, 'create'])
-    ->middleware('auth')
-    ->name('data-personal.create');
+        Route::post('/panduan', [PanduanController::class, 'store'])
+            ->name('panduan.store');
 
-Route::post('/data-personal', [DataPersonalController::class, 'store'])
-    ->middleware('auth')
-    ->name('data-personal.store');
+        Route::get('/panduan/{panduan}/edit', [PanduanController::class, 'edit'])
+            ->name('panduan.edit');
 
-Route::get('/data-personal/{dataPersonal}/edit', [DataPersonalController::class, 'edit'])
-    ->middleware('auth')
-    ->name('data-personal.edit');
+        Route::put('/panduan/{panduan}', [PanduanController::class, 'update'])
+            ->name('panduan.update');
 
-Route::put('/data-personal/{dataPersonal}', [DataPersonalController::class, 'update'])
-    ->middleware('auth')
-    ->name('data-personal.update');
+        Route::delete('/panduan/{panduan}', [PanduanController::class, 'destroy'])
+            ->name('panduan.destroy');
+    });
 
-Route::delete('/data-personal/{dataPersonal}', [DataPersonalController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('data-personal.destroy');
+    // SPO Keperawatan
+    // Semua pengguna yang sudah login boleh membaca
+    Route::get('/spo', [SpoKeperawatanController::class, 'index'])
+        ->name('spo.index');
 
+    // Hanya admin yang boleh mengelola SPO
+    Route::middleware('admin')->group(function () {
+        Route::get('/spo/create', [SpoKeperawatanController::class, 'create'])
+            ->name('spo.create');
 
+        Route::post('/spo', [SpoKeperawatanController::class, 'store'])
+            ->name('spo.store');
 
-Route::get('/data-personal/{dataPersonal}/sertifikat/create', [SertifikatController::class, 'create'])
-    ->middleware('auth')
-    ->name('sertifikat.create');
+        Route::get('/spo/{spo}/edit', [SpoKeperawatanController::class, 'edit'])
+            ->name('spo.edit');
 
-Route::post('/data-personal/{dataPersonal}/sertifikat', [SertifikatController::class, 'store'])
-    ->middleware('auth')
-    ->name('sertifikat.store');
+        Route::put('/spo/{spo}', [SpoKeperawatanController::class, 'update'])
+            ->name('spo.update');
 
-Route::delete('/sertifikat/{sertifikat}', [SertifikatController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('sertifikat.destroy');
+        Route::delete('/spo/{spo}', [SpoKeperawatanController::class, 'destroy'])
+            ->name('spo.destroy');
+    });
+
+    // Data Personal
+    Route::get('/data-personal', [DataPersonalController::class, 'index'])
+        ->name('data-personal.index');
+
+    Route::get('/data-personal/create', [DataPersonalController::class, 'create'])
+        ->name('data-personal.create');
+
+    Route::post('/data-personal', [DataPersonalController::class, 'store'])
+        ->name('data-personal.store');
+
+    Route::get('/data-personal/{dataPersonal}/edit', [DataPersonalController::class, 'edit'])
+        ->name('data-personal.edit');
+
+    Route::put('/data-personal/{dataPersonal}', [DataPersonalController::class, 'update'])
+        ->name('data-personal.update');
+
+    Route::delete('/data-personal/{dataPersonal}', [DataPersonalController::class, 'destroy'])
+        ->name('data-personal.destroy');
+
+    // Sertifikat
+    Route::get('/data-personal/{dataPersonal}/sertifikat/create', [SertifikatController::class, 'create'])
+        ->name('sertifikat.create');
+
+    Route::post('/data-personal/{dataPersonal}/sertifikat', [SertifikatController::class, 'store'])
+        ->name('sertifikat.store');
+
+    Route::delete('/sertifikat/{sertifikat}', [SertifikatController::class, 'destroy'])
+        ->name('sertifikat.destroy');
+
+    // Membuka dokumen Data Personal secara terproteksi
+    Route::get(
+        '/data-personal/{dataPersonal}/dokumen/{jenis}',
+        [DataPersonalController::class, 'showDocument']
+    )->name('data-personal.document');
+
+    // Membuka file Sertifikat secara terproteksi
+    Route::get(
+        '/sertifikat/{sertifikat}/file',
+        [SertifikatController::class, 'showFile']
+    )->name('sertifikat.file');
+});

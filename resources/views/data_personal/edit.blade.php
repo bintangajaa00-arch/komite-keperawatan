@@ -638,7 +638,7 @@
                             </div>
 
                             @if ($document['current'])
-                                <a href="{{ asset('storage/' . $document['current']) }}" target="_blank"
+                                <a href="{{ route('data-personal.document', [$dataPersonal->id, $field]) }}" target="_blank"
                                     rel="noopener noreferrer" class="current-file" title="{{ $document['link'] }}">
                                     {{ $document['link'] }}
                                 </a>

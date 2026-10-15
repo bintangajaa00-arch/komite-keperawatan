@@ -1333,7 +1333,8 @@
 
                                     @if($data->ijazah)
 
-                                        <a href="{{ asset('storage/' . $data->ijazah) }}" target="_blank" class="pdf-link">
+                                        <a href="{{ route('data-personal.document', [$data->id, 'ijazah']) }}" target="_blank"
+                                            class="pdf-link">
                                             Unduh PDF
                                         </a>
 
@@ -1358,7 +1359,8 @@
 
                                     @if($data->str)
 
-                                        <a href="{{ asset('storage/' . $data->str) }}" target="_blank" class="pdf-link">
+                                        <a href="{{ route('data-personal.document', [$data->id, 'str']) }}" target="_blank"
+                                            class="pdf-link">
                                             Unduh PDF
                                         </a>
 
@@ -1383,7 +1385,8 @@
 
                                     @if($data->sipp_sipb)
 
-                                        <a href="{{ asset('storage/' . $data->sipp_sipb) }}" target="_blank" class="pdf-link">
+                                        <a href="{{ route('data-personal.document', [$data->id, 'sipp_sipb']) }}" target="_blank"
+                                            class="pdf-link">
                                             Unduh PDF
                                         </a>
 
@@ -1408,7 +1411,8 @@
 
                                     @if($data->spk_rkk)
 
-                                        <a href="{{ asset('storage/' . $data->spk_rkk) }}" target="_blank" class="pdf-link">
+                                        <a href="{{ route('data-personal.document', [$data->id, 'spk_rkk']) }}" target="_blank"
+                                            class="pdf-link">
                                             Unduh PDF
                                         </a>
 
@@ -1433,8 +1437,8 @@
 
                                     @if($data->proses_kredensial)
 
-                                        <a href="{{ asset('storage/' . $data->proses_kredensial) }}" target="_blank"
-                                            class="pdf-link">
+                                        <a href="{{ route('data-personal.document', [$data->id, 'proses_kredensial']) }}"
+                                            target="_blank" class="pdf-link">
                                             Unduh PDF
                                         </a>
 
@@ -1459,8 +1463,8 @@
 
                                     @if($data->sk_penempatan_kerja)
 
-                                        <a href="{{ asset('storage/' . $data->sk_penempatan_kerja) }}" target="_blank"
-                                            class="pdf-link">
+                                        <a href="{{ route('data-personal.document', [$data->id, 'sk_penempatan_kerja']) }}"
+                                            target="_blank" class="pdf-link">
                                             Unduh PDF
                                         </a>
 
@@ -1485,7 +1489,8 @@
 
                                     @if($data->uraian_tugas)
 
-                                        <a href="{{ asset('storage/' . $data->uraian_tugas) }}" target="_blank" class="pdf-link">
+                                        <a href="{{ route('data-personal.document', [$data->id, 'uraian_tugas']) }}" target="_blank"
+                                            class="pdf-link">
                                             Unduh PDF
                                         </a>
 
@@ -1510,8 +1515,8 @@
 
                                     @if($data->oppe)
 
-                                        <a href="{{ asset('storage/' . $data->oppe) }}" target="_blank" class="pdf-link"
-                                            rel="noopener noreferrer" download>
+                                        <a href="{{ route('data-personal.document', [$data->id, 'oppe']) }}" target="_blank"
+                                            class="pdf-link" rel="noopener noreferrer" download>
                                             Unduh PDF
                                         </a>
 
@@ -1537,8 +1542,7 @@
 
                                         </span>
 
-                                        <a href="{{ asset('storage/' . $sertifikat->file_sertifikat) }}" target="_blank"
-                                            class="pdf-link">
+                                        <a href="{{ route('sertifikat.file', $sertifikat->id) }}" target="_blank" class="pdf-link">
                                             Unduh PDF
                                         </a>
 
