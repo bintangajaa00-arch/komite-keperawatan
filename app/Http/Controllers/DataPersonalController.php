@@ -13,7 +13,7 @@ class DataPersonalController extends Controller
     {
         $user = Auth::user();
 
-        $query = DataPersonal::with('sertifikats');
+        $query = DataPersonal::with(['sertifikats', 'oppes']);
 
         // Pengguna biasa hanya dapat melihat data miliknya.
         if ($user->role !== 'admin') {
@@ -173,9 +173,17 @@ class DataPersonalController extends Controller
             }
         }
 
+        // Hapus file sertifikat terkait
         foreach ($dataPersonal->sertifikats as $sertifikat) {
             if ($sertifikat->file_sertifikat) {
                 $this->deleteStoredDocument($sertifikat->file_sertifikat);
+            }
+        }
+
+        // Hapus file OPPE baru terkait
+        foreach ($dataPersonal->oppes as $oppe) {
+            if ($oppe->file_oppe) {
+                $this->deleteStoredDocument($oppe->file_oppe);
             }
         }
 

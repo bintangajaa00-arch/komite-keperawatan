@@ -8,7 +8,8 @@ class SpoKeperawatan extends Model
 {
     protected $fillable = [
         'judul',
-        'file_pdf',
         'deskripsi',
+        'file_pdf',
+        'link',
     ];
 }

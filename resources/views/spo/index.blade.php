@@ -50,6 +50,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
             margin-bottom: 25px;
         }
 
@@ -70,6 +71,7 @@
             padding: 12px 18px;
             border-radius: 8px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .success {
@@ -82,7 +84,7 @@
 
         .document-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 20px;
         }
 
@@ -91,18 +93,19 @@
             border-radius: 14px;
             padding: 22px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            min-width: 0;
         }
 
-        .pdf-icon {
+        .document-icon {
             width: 55px;
             height: 55px;
-            background: #fee2e2;
-            color: #dc2626;
+            background: #dbeafe;
+            color: #1d4ed8;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 16px;
             font-weight: bold;
             margin-bottom: 16px;
         }
@@ -110,6 +113,7 @@
         .document-card h3 {
             font-size: 18px;
             margin-bottom: 8px;
+            overflow-wrap: anywhere;
         }
 
         .document-card p {
@@ -118,12 +122,14 @@
             line-height: 1.5;
             min-height: 42px;
             margin-bottom: 18px;
+            overflow-wrap: anywhere;
         }
 
         .button-group {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .view-button {
@@ -134,6 +140,8 @@
             text-decoration: none;
             font-size: 13px;
             border: none;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
         }
 
         .view {
@@ -146,7 +154,6 @@
 
         .delete {
             background: #dc2626;
-            cursor: pointer;
         }
 
         .empty {
@@ -159,7 +166,7 @@
 
         @media (max-width: 900px) {
             .document-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
@@ -171,7 +178,6 @@
             .header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
             }
 
             .navbar {
@@ -218,21 +224,32 @@
 
                     <div class="document-card">
 
-                        <div class="pdf-icon">
-                            PDF
+                        <div class="document-icon">
+                            {{ $spo->link ? 'LINK' : 'PDF' }}
                         </div>
 
                         <h3>{{ $spo->judul }}</h3>
 
                         <p>
-                            {{ $spo->deskripsi ?? 'Tidak ada deskripsi.' }}
+                            {{ $spo->deskripsi ?: 'Tidak ada deskripsi.' }}
                         </p>
 
                         <div class="button-group">
 
-                            <a href="{{ asset('storage/' . $spo->file_pdf) }}" target="_blank" class="view-button view">
-                                Lihat PDF
-                            </a>
+                            @if($spo->link)
+                                <a href="{{ $spo->link }}" target="_blank" rel="noopener noreferrer" class="view-button view">
+                                    Buka Link SPO
+                                </a>
+                            @elseif($spo->file_pdf)
+                                <a href="{{ asset('storage/' . $spo->file_pdf) }}" target="_blank" rel="noopener noreferrer"
+                                    class="view-button view">
+                                    Lihat PDF
+                                </a>
+                            @else
+                                <span style="font-size: 13px; color: #6b7280;">
+                                    Link belum tersedia
+                                </span>
+                            @endif
 
                             <a href="{{ route('spo.edit', $spo->id) }}" class="view-button edit">
                                 Edit
@@ -240,14 +257,12 @@
 
                             <form action="{{ route('spo.destroy', $spo->id) }}" method="POST"
                                 onsubmit="return confirm('Yakin ingin menghapus dokumen SPO ini?');">
-
                                 @csrf
                                 @method('DELETE')
 
                                 <button type="submit" class="view-button delete">
                                     Hapus
                                 </button>
-
                             </form>
 
                         </div>
@@ -263,7 +278,7 @@
             <div class="empty">
                 <h3>Belum ada dokumen SPO</h3>
                 <p style="margin-top: 8px;">
-                    Silakan tambahkan dokumen SPO Keperawatan.
+                    Silakan tambahkan SPO Keperawatan.
                 </p>
             </div>
 

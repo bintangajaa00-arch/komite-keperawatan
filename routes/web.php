@@ -7,6 +7,7 @@ use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\SpoKeperawatanController;
 use App\Http\Controllers\DataPersonalController;
 use App\Http\Controllers\SertifikatController;
+use App\Http\Controllers\OppeController;
 
 // Halaman utama diarahkan ke login
 Route::get('/', function () {
@@ -47,12 +48,11 @@ Route::middleware('auth')->group(function () {
         return view('komite.etik');
     })->name('komite.etik');
 
-        // Panduan
-    // Semua pengguna yang sudah login boleh membaca
+    // Panduan: semua pengguna login boleh membaca
     Route::get('/panduan', [PanduanController::class, 'index'])
         ->name('panduan.index');
 
-    // Hanya admin yang boleh mengelola Panduan
+    // Panduan: hanya admin yang boleh mengelola
     Route::middleware('admin')->group(function () {
         Route::get('/panduan/create', [PanduanController::class, 'create'])
             ->name('panduan.create');
@@ -70,12 +70,11 @@ Route::middleware('auth')->group(function () {
             ->name('panduan.destroy');
     });
 
-    // SPO Keperawatan
-    // Semua pengguna yang sudah login boleh membaca
+    // SPO Keperawatan: semua pengguna login boleh membaca
     Route::get('/spo', [SpoKeperawatanController::class, 'index'])
         ->name('spo.index');
 
-    // Hanya admin yang boleh mengelola SPO
+    // SPO Keperawatan: hanya admin yang boleh mengelola
     Route::middleware('admin')->group(function () {
         Route::get('/spo/create', [SpoKeperawatanController::class, 'create'])
             ->name('spo.create');
@@ -122,15 +121,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/sertifikat/{sertifikat}', [SertifikatController::class, 'destroy'])
         ->name('sertifikat.destroy');
 
+    Route::get('/sertifikat/{sertifikat}/file', [SertifikatController::class, 'showFile'])
+        ->name('sertifikat.file');
+
+    // OPPE: menambah banyak dokumen untuk satu data personal
+    Route::get('/data-personal/{dataPersonal}/oppe/create', [OppeController::class, 'create'])
+        ->name('oppe.create');
+
+    Route::post('/data-personal/{dataPersonal}/oppe', [OppeController::class, 'store'])
+        ->name('oppe.store');
+
+    // Membuka dan menghapus dokumen OPPE satu per satu
+    Route::get('/oppe/{oppe}/file', [OppeController::class, 'showFile'])
+        ->name('oppe.file');
+
+    Route::delete('/oppe/{oppe}', [OppeController::class, 'destroy'])
+        ->name('oppe.destroy');
+
     // Membuka dokumen Data Personal secara terproteksi
     Route::get(
         '/data-personal/{dataPersonal}/dokumen/{jenis}',
         [DataPersonalController::class, 'showDocument']
     )->name('data-personal.document');
-
-    // Membuka file Sertifikat secara terproteksi
-    Route::get(
-        '/sertifikat/{sertifikat}/file',
-        [SertifikatController::class, 'showFile']
-    )->name('sertifikat.file');
 });

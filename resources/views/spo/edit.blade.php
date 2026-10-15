@@ -62,13 +62,15 @@
             margin-bottom: 8px;
         }
 
-        input,
+        input[type="text"],
+        input[type="url"],
         textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 14px;
+            font-family: Arial, sans-serif;
         }
 
         textarea {
@@ -82,17 +84,30 @@
             border-color: #2563eb;
         }
 
-        .current-file {
-            background: #f3f4f6;
-            padding: 12px;
+        .current-link {
+            background: #eff6ff;
+            padding: 14px;
             border-radius: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
         }
 
-        .current-file a {
+        .current-link a {
             color: #2563eb;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        .current-link a:hover {
+            text-decoration: underline;
+        }
+
+        .info {
+            display: block;
+            margin-top: 7px;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.5;
         }
 
         .error {
@@ -126,6 +141,24 @@
             background: #e5e7eb;
             color: #374151;
         }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 18px 20px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
@@ -136,40 +169,31 @@
     </div>
 
     <div class="container">
-
         <div class="card">
 
             <h1>Edit SPO Keperawatan</h1>
 
             <p>
-                Perbarui informasi dokumen SPO Keperawatan.
+                Perbarui judul, deskripsi, atau tautan SPO Keperawatan.
             </p>
 
-            <form action="{{ route('spo.update', $spo->id) }}" method="POST" enctype="multipart/form-data">
-
+            <form action="{{ route('spo.update', $spo->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <div class="form-group">
-
-                    <label for="judul">
-                        Judul SPO
-                    </label>
+                    <label for="judul">Judul SPO</label>
 
                     <input type="text" id="judul" name="judul" value="{{ old('judul', $spo->judul) }}"
-                        placeholder="Masukkan judul SPO" required>
+                        placeholder="Masukkan judul SPO" maxlength="255" required>
 
                     @error('judul')
                         <div class="error">{{ $message }}</div>
                     @enderror
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="deskripsi">
-                        Deskripsi
-                    </label>
+                    <label for="deskripsi">Deskripsi</label>
 
                     <textarea id="deskripsi" name="deskripsi"
                         placeholder="Masukkan deskripsi SPO">{{ old('deskripsi', $spo->deskripsi) }}</textarea>
@@ -177,44 +201,50 @@
                     @error('deskripsi')
                         <div class="error">{{ $message }}</div>
                     @enderror
-
                 </div>
 
-                <div class="form-group">
+                @if($spo->link)
+                    <div class="form-group">
+                        <label>Link SPO Saat Ini</label>
 
-                    <label>
-                        File PDF Saat Ini
-                    </label>
-
-                    <div class="current-file">
-                        <a href="{{ asset('storage/' . $spo->file_pdf) }}" target="_blank">
-                            Lihat PDF Saat Ini
-                        </a>
+                        <div class="current-link">
+                            <a href="{{ $spo->link }}" target="_blank" rel="noopener noreferrer">
+                                Buka Link SPO Saat Ini
+                            </a>
+                        </div>
                     </div>
+                @elseif($spo->file_pdf)
+                    <div class="form-group">
+                        <label>PDF SPO Lama</label>
 
-                </div>
+                        <div class="current-link">
+                            <a href="{{ asset('storage/' . $spo->file_pdf) }}" target="_blank" rel="noopener noreferrer">
+                                Lihat PDF Lama
+                            </a>
+                        </div>
+
+                        <small class="info">
+                            PDF lama tetap disimpan. Anda dapat memasukkan link di bawah untuk beralih menggunakan tautan.
+                        </small>
+                    </div>
+                @endif
 
                 <div class="form-group">
+                    <label for="link">Link SPO</label>
 
-                    <label for="file_pdf">
-                        Ganti File PDF
-                    </label>
+                    <input type="url" id="link" name="link" value="{{ old('link', $spo->link) }}"
+                        placeholder="https://..." maxlength="2048" required>
 
-                    <input type="file" id="file_pdf" name="file_pdf" accept=".pdf,application/pdf">
-
-                    <small style="display:block; margin-top:6px; color:#6b7280;">
-                        Kosongkan jika tidak ingin mengganti file PDF.
-                        Maksimal 10 MB.
+                    <small class="info">
+                        Masukkan tautan Google Drive atau website lain yang memuat dokumen SPO.
                     </small>
 
-                    @error('file_pdf')
+                    @error('link')
                         <div class="error">{{ $message }}</div>
                     @enderror
-
                 </div>
 
                 <div class="buttons">
-
                     <button type="submit" class="button save">
                         Simpan Perubahan
                     </button>
@@ -222,13 +252,11 @@
                     <a href="{{ route('spo.index') }}" class="button cancel">
                         Batal
                     </a>
-
                 </div>
 
             </form>
 
         </div>
-
     </div>
 
 </body>

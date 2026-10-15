@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SpoKeperawatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SpoKeperawatanController extends Controller
 {
@@ -21,27 +22,22 @@ class SpoKeperawatanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'file_pdf' => 'required|mimes:pdf|max:10240',
+            'link' => 'required|url:http,https|max:2048',
         ]);
 
-        $file = $request->file('file_pdf');
-
-        $namaFile = time() . '_' . $file->getClientOriginalName();
-
-        $file->storeAs('spo', $namaFile, 'public');
-
         SpoKeperawatan::create([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'file_pdf' => 'spo/' . $namaFile,
+            'judul' => $validated['judul'],
+            'deskripsi' => $validated['deskripsi'] ?? null,
+            'link' => $validated['link'],
+            'file_pdf' => null,
         ]);
 
         return redirect()
             ->route('spo.index')
-            ->with('success', 'Dokumen SPO berhasil ditambahkan.');
+            ->with('success', 'SPO berhasil ditambahkan.');
     }
 
     public function edit(SpoKeperawatan $spo)
@@ -51,40 +47,34 @@ class SpoKeperawatanController extends Controller
 
     public function update(Request $request, SpoKeperawatan $spo)
     {
-        $request->validate([
+        $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'file_pdf' => 'nullable|mimes:pdf|max:10240',
+            'link' => 'nullable|url:http,https|max:2048',
         ]);
 
-        $data = [
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-        ];
-
-        if ($request->hasFile('file_pdf')) {
-            $file = $request->file('file_pdf');
-
-            $namaFile = time() . '_' . $file->getClientOriginalName();
-
-            $file->storeAs('spo', $namaFile, 'public');
-
-            $data['file_pdf'] = 'spo/' . $namaFile;
-        }
-
-        $spo->update($data);
+        $spo->update([
+            'judul' => $validated['judul'],
+            'deskripsi' => $validated['deskripsi'] ?? null,
+            'link' => $validated['link'] ?? null,
+        ]);
 
         return redirect()
             ->route('spo.index')
-            ->with('success', 'Dokumen SPO berhasil diperbarui.');
+            ->with('success', 'SPO berhasil diperbarui.');
     }
 
     public function destroy(SpoKeperawatan $spo)
     {
+        // Hapus file hanya jika record lama memang memiliki file PDF.
+        if ($spo->file_pdf) {
+            Storage::disk('public')->delete($spo->file_pdf);
+        }
+
         $spo->delete();
 
         return redirect()
             ->route('spo.index')
-            ->with('success', 'Dokumen SPO berhasil dihapus.');
+            ->with('success', 'SPO berhasil dihapus.');
     }
 }

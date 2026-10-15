@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Sertifikat;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DataPersonal extends Model
 {
@@ -24,8 +24,13 @@ class DataPersonal extends Model
         'sertifikat',
     ];
 
-    public function sertifikats()
+    public function sertifikats(): HasMany
     {
         return $this->hasMany(Sertifikat::class);
+    }
+
+    public function oppes(): HasMany
+    {
+        return $this->hasMany(Oppe::class);
     }
 }

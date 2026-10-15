@@ -612,11 +612,11 @@
                                 'link' => 'Lihat Uraian Tugas'
                             ],
 
-                            'oppe' => [
-                                'label' => 'OPPE',
-                                'current' => $dataPersonal->oppe,
-                                'link' => 'Lihat OPPE'
-                            ]
+                            // 'oppe' => [
+                            //     'label' => 'OPPE',
+                            //     'current' => $dataPersonal->oppe,
+                            //     'link' => 'Lihat OPPE'
+                            // ]
                         ];
                     @endphp
 

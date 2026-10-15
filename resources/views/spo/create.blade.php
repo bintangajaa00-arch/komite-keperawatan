@@ -30,7 +30,7 @@
         }
 
         .container {
-            max-width: 750px;
+            max-width: 820px;
             margin: 40px auto;
             padding: 0 20px;
         }
@@ -38,41 +38,47 @@
         .card {
             background: white;
             border-radius: 14px;
-            padding: 30px;
+            padding: 34px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
         }
 
-        .card h1 {
+        h1 {
             color: #1e3a8a;
             margin-bottom: 8px;
+            font-size: 34px;
         }
 
-        .card>p {
+        .description {
             color: #6b7280;
             margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 9px;
+            font-size: 15px;
         }
 
-        input,
+        input[type="text"],
+        input[type="url"],
         textarea {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 14px;
+            font-family: Arial, sans-serif;
+            background: white;
         }
 
         textarea {
-            min-height: 120px;
+            min-height: 130px;
             resize: vertical;
         }
 
@@ -80,6 +86,13 @@
         textarea:focus {
             outline: none;
             border-color: #2563eb;
+        }
+
+        .info {
+            margin-top: 8px;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.5;
         }
 
         .error {
@@ -91,11 +104,11 @@
         .buttons {
             display: flex;
             gap: 10px;
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
         .button {
-            padding: 11px 18px;
+            padding: 12px 20px;
             border-radius: 8px;
             text-decoration: none;
             border: none;
@@ -113,6 +126,28 @@
             background: #e5e7eb;
             color: #374151;
         }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 18px 20px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
@@ -123,39 +158,30 @@
     </div>
 
     <div class="container">
-
         <div class="card">
 
             <h1>Tambah SPO Keperawatan</h1>
 
-            <p>
-                Tambahkan dokumen Standar Prosedur Operasional Keperawatan.
+            <p class="description">
+                Tambahkan judul, deskripsi, dan tautan Standar Prosedur Operasional Keperawatan.
             </p>
 
-            <form action="{{ route('spo.store') }}" method="POST" enctype="multipart/form-data">
-
+            <form action="{{ route('spo.store') }}" method="POST">
                 @csrf
 
                 <div class="form-group">
-
-                    <label for="judul">
-                        Judul SPO
-                    </label>
+                    <label for="judul">Judul SPO</label>
 
                     <input type="text" id="judul" name="judul" value="{{ old('judul') }}"
-                        placeholder="Masukkan judul SPO" required>
+                        placeholder="Masukkan judul SPO" maxlength="255" required>
 
                     @error('judul')
                         <div class="error">{{ $message }}</div>
                     @enderror
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="deskripsi">
-                        Deskripsi
-                    </label>
+                    <label for="deskripsi">Deskripsi</label>
 
                     <textarea id="deskripsi" name="deskripsi"
                         placeholder="Masukkan deskripsi SPO">{{ old('deskripsi') }}</textarea>
@@ -163,29 +189,25 @@
                     @error('deskripsi')
                         <div class="error">{{ $message }}</div>
                     @enderror
-
                 </div>
 
                 <div class="form-group">
+                    <label for="link">Link SPO</label>
 
-                    <label for="file_pdf">
-                        File PDF
-                    </label>
+                    <input type="url" id="link" name="link" value="{{ old('link') }}" placeholder="https://..."
+                        maxlength="2048" required>
 
-                    <input type="file" id="file_pdf" name="file_pdf" accept=".pdf,application/pdf" required>
+                    <div class="info">
+                        Masukkan tautan Google Drive atau website yang memuat dokumen SPO.
+                        Pastikan tautan dapat diakses oleh pengguna yang membutuhkan.
+                    </div>
 
-                    <small style="display:block; margin-top:6px; color:#6b7280;">
-                        Format file harus PDF, maksimal 10 MB.
-                    </small>
-
-                    @error('file_pdf')
+                    @error('link')
                         <div class="error">{{ $message }}</div>
                     @enderror
-
                 </div>
 
                 <div class="buttons">
-
                     <button type="submit" class="button save">
                         Simpan SPO
                     </button>
@@ -193,13 +215,11 @@
                     <a href="{{ route('spo.index') }}" class="button cancel">
                         Batal
                     </a>
-
                 </div>
 
             </form>
 
         </div>
-
     </div>
 
 </body>

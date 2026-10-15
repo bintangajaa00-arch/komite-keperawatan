@@ -997,27 +997,7 @@
 
                     </div>
 
-                    {{-- OPPE --}}
-                    <div class="form-group">
-                        <label for="oppe">OPPE (PDF)</label>
-
-                        <div class="file-wrapper">
-                            <input type="file" id="oppe" name="oppe" accept=".pdf,application/pdf"
-                                onchange="updateFileButton('oppe')">
-
-                            <button type="button" class="clear-file" id="clear-oppe" onclick="clearFileInput('oppe')"
-                                title="Batalkan file">
-                                ×
-                            </button>
-                        </div>
-
-                        <span class="file-info">PDF, maksimal 10 MB.</span>
-
-                        @error('oppe')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-
+                    
                 </div>
 
 
