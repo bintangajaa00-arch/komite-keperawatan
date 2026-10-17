@@ -3,37 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Personal - Komite Keperawatan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Personal | Komite Keperawatan</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --navy: #103968;
+            --navy-dark: #09294d;
+            --blue: #1764f5;
+            --blue-light: #eaf1ff;
+            --teal: #0e9f91;
+            --green: #0c9b72;
+            --purple: #8051e8;
+            --orange: #f28a25;
+            --red: #f04463;
+            --text: #203653;
+            --muted: #71839d;
+            --border: #dce6f3;
+            --bg: #f3f7fd;
+            --white: #ffffff;
         }
 
-        :root {
-            --blue: #2563eb;
-            --blue-dark: #1d4ed8;
-            --text: #172554;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --surface: #ffffff;
-            --page: #f5f7fb;
-            --green: #15803d;
-            --red: #dc2626;
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: var(--page);
-            color: #334155;
-            min-height: 100vh;
-            font-size: 13px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-size: 14px;
         }
 
-        a,
         button,
         input,
         select {
@@ -41,1004 +50,1644 @@
         }
 
         a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        a {
             -webkit-tap-highlight-color: transparent;
         }
 
-        .navbar {
-            min-height: 64px;
-            padding: 0 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            color: white;
-            background: #1e40af;
-            box-shadow: 0 2px 10px #0f172a12;
-        }
+        /* HEADER TETAP DI ATAS */
 
-        .brand {
+        .topbar {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 1000;
+            height: 56px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 13px;
+            padding: 8px 25px;
+            color: white;
+            background: linear-gradient(110deg, var(--navy-dark), #174b86);
+            box-shadow: 0 3px 12px #09294d20;
         }
 
         .brand-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 11px;
+            width: 37px;
+            height: 37px;
             display: grid;
             place-items: center;
-            background: #ffffff20;
-            font-size: 18px;
+            flex-shrink: 0;
+            color: white;
+            background: linear-gradient(135deg, #14c9c0, #0879d9);
+            border-radius: 11px;
+            font-size: 21px;
             font-weight: 800;
         }
 
-        .navbar h2 {
-            font-size: 18px;
-            font-weight: 700;
+        .brand-name {
+            min-width: 175px;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.35;
         }
 
-        .back-button {
-            color: white;
-            text-decoration: none;
-            padding: 9px 13px;
-            border-radius: 8px;
-            background: #ffffff16;
-            border: 1px solid #ffffff30;
-            font-size: 12px;
-            font-weight: 700;
-            transition: background .2s;
+        .brand-name small {
+            display: block;
+            color: #c5d7ee;
+            font-size: 11px;
+            font-weight: 500;
         }
 
-        .back-button:hover {
-            background: #ffffff2c;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 26px 24px 36px;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .page-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 13px;
-            display: grid;
-            place-items: center;
-            color: var(--blue);
-            background: #e8efff;
-            font-size: 22px;
-        }
-
-        .page-header h1 {
-            font-size: 25px;
-            color: var(--text);
-            letter-spacing: -.5px;
-        }
-
-        .page-header p {
-            color: var(--muted);
-            margin-top: 5px;
-            font-size: 13px;
-        }
-
-        .add-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 11px 16px;
-            border-radius: 9px;
-            color: white;
-            background: var(--blue);
-            text-decoration: none;
-            font-weight: 700;
-            white-space: nowrap;
-            box-shadow: 0 3px 8px #2563eb20;
-            transition: .2s;
-        }
-
-        .add-button:hover {
-            background: var(--blue-dark);
-            transform: translateY(-1px);
-        }
-
-        .success {
+        .top-search {
+            width: min(420px, 40vw);
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 15px;
-            margin-bottom: 16px;
-            background: #ecfdf5;
-            color: #047857;
-            border: 1px solid #bbf7d0;
+            margin-left: 35px;
+            padding: 10px 13px;
+            background: #ffffff18;
+            border: 1px solid #ffffff20;
             border-radius: 9px;
-            font-weight: 600;
         }
 
-        .filter-panel {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 18px;
-            box-shadow: 0 2px 8px #0f172a05;
+        .top-search span {
+            color: #d5e5ff;
+            font-size: 19px;
         }
 
-        .filter-form {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-            max-width: 600px;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 13px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            pointer-events: none;
-        }
-
-        .search-box input,
-        .room-filter select {
+        .top-search input {
             width: 100%;
-            height: 42px;
-            border: 1px solid #dbe2ea;
-            border-radius: 8px;
-            outline: none;
-            background: white;
-            color: #334155;
-            transition: border .2s, box-shadow .2s;
+            padding: 0;
+            color: white;
+            background: transparent;
+            border: 0;
+            outline: 0;
+            font-size: 12px;
         }
 
-        .search-box input {
-            padding: 0 12px 0 38px;
+        .top-search input::placeholder {
+            color: #c3d3e9;
         }
 
-        .room-filter {
-            width: 250px;
+        .top-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-left: auto;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
         }
 
-        .room-filter select {
-            padding: 0 12px;
-            cursor: pointer;
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            background: #3679c8;
+            border: 1px solid #ffffff40;
+            border-radius: 50%;
+            font-weight: 800;
         }
 
-        .search-box input:focus,
-        .room-filter select:focus {
-            border-color: #93b4ff;
-            box-shadow: 0 0 0 3px #2563eb12;
-        }
+        /* AREA HALAMAN TIDAK IKUT SCROLL */
 
-        .data-scroll {
+        .page {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px 25px 18px;
             display: flex;
             flex-direction: column;
             gap: 14px;
-        }
-
-        .personal-card {
-            --room-color: #64748b;
-            --room-light: #f1f5f9;
-            --room-border: #e2e8f0;
-            --room-dark: #334155;
-            background: white;
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--room-color);
-            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px #0f172a06;
-            transition: box-shadow .2s, border-color .2s;
         }
 
-        .personal-card:hover {
-            box-shadow: 0 5px 18px #0f172a0b;
+        .page-heading,
+        .filter-panel {
+            flex-shrink: 0;
         }
 
-        .room-k-iri {
-            --room-color: #2563eb;
-            --room-light: #eff6ff;
-            --room-border: #dbeafe;
-            --room-dark: #1d4ed8;
-        }
-
-        .room-mpp {
-            --room-color: #7c3aed;
-            --room-light: #f5f3ff;
-            --room-border: #ede9fe;
-            --room-dark: #6d28d9;
-        }
-
-        .room-mutu {
-            --room-color: #059669;
-            --room-light: #ecfdf5;
-            --room-border: #d1fae5;
-            --room-dark: #047857;
-        }
-
-        .room-ppi {
-            --room-color: #dc2626;
-            --room-light: #fef2f2;
-            --room-border: #fee2e2;
-            --room-dark: #b91c1c;
-        }
-
-        .room-catleya {
-            --room-color: #db2777;
-            --room-light: #fdf2f8;
-            --room-border: #fce7f3;
-            --room-dark: #be185d;
-        }
-
-        .room-alamanda {
-            --room-color: #ea580c;
-            --room-light: #fff7ed;
-            --room-border: #ffedd5;
-            --room-dark: #c2410c;
-        }
-
-        .room-gardenia {
-            --room-color: #0d9488;
-            --room-light: #f0fdfa;
-            --room-border: #ccfbf1;
-            --room-dark: #0f766e;
-        }
-
-        .room-tulip {
-            --room-color: #4f46e5;
-            --room-light: #eef2ff;
-            --room-border: #e0e7ff;
-            --room-dark: #4338ca;
-        }
-
-        .room-hd {
-            --room-color: #0891b2;
-            --room-light: #ecfeff;
-            --room-border: #cffafe;
-            --room-dark: #0e7490;
-        }
-
-        .room-irj {
-            --room-color: #a16207;
-            --room-light: #fefce8;
-            --room-border: #fef08a;
-            --room-dark: #854d0e;
-        }
-
-        .room-ibs {
-            --room-color: #be185d;
-            --room-light: #fdf2f8;
-            --room-border: #fce7f3;
-            --room-dark: #9d174d;
-        }
-
-        .room-icu {
-            --room-color: #b91c1c;
-            --room-light: #fef2f2;
-            --room-border: #fee2e2;
-            --room-dark: #991b1b;
-        }
-
-        .room-igd {
-            --room-color: #ea580c;
-            --room-light: #fff7ed;
-            --room-border: #ffedd5;
-            --room-dark: #c2410c;
-        }
-
-        .room-mawar {
-            --room-color: #e11d48;
-            --room-light: #fff1f2;
-            --room-border: #ffe4e6;
-            --room-dark: #be123c;
-        }
-
-        .room-amarylis {
-            --room-color: #9333ea;
-            --room-light: #faf5ff;
-            --room-border: #f3e8ff;
-            --room-dark: #7e22ce;
-        }
-
-        .room-empty {
-            --room-color: #64748b;
-            --room-light: #f8fafc;
-            --room-border: #e2e8f0;
-            --room-dark: #475569;
-        }
-
-        .card-main {
-            display: grid;
-            grid-template-columns: minmax(240px, 1.8fr) minmax(130px, .8fr) minmax(120px, .8fr) auto;
-            align-items: center;
-            gap: 20px;
-            padding: 18px 20px;
-        }
-
-        .person {
+        .page-heading {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            gap: 18px;
+            min-height: 65px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
             min-width: 0;
         }
 
-        .avatar {
-            flex: 0 0 44px;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
+        .heading-icon {
+            width: 52px;
+            height: 52px;
             display: grid;
             place-items: center;
-            background: var(--room-light);
-            color: var(--room-dark);
-            border: 1px solid var(--room-border);
-            font-size: 16px;
-            font-weight: 800;
+            flex-shrink: 0;
+            color: var(--blue);
+            background: linear-gradient(135deg, #e3edff, #d3e4ff);
+            border: 1px solid #cbdcff;
+            border-radius: 15px;
+            font-size: 26px;
         }
 
-        .person-name {
-            color: var(--text);
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 1.45;
-            overflow-wrap: anywhere;
-        }
-
-        .person-unit {
-            display: inline-flex;
-            margin-top: 6px;
-            padding: 4px 9px;
-            border-radius: 6px;
-            background: var(--room-light);
-            color: var(--room-dark);
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .info-label {
-            color: #94a3b8;
+        .eyebrow {
+            margin: 0 0 4px;
+            color: var(--blue);
             font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .7px;
-            margin-bottom: 6px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
         }
 
-        .info-value {
-            color: #334155;
-            font-size: 12px;
-            font-weight: 600;
-            overflow-wrap: anywhere;
-        }
-
-        .actions {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .edit-button,
-        .delete-data-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 64px;
-            min-height: 34px;
-            padding: 7px 12px;
-            border-radius: 7px;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .edit-button {
-            color: var(--room-dark);
-            background: var(--room-light);
-            border: 1px solid var(--room-border);
-        }
-
-        .edit-button:hover {
-            filter: brightness(.96);
-        }
-
-        .delete-data-button {
-            color: var(--red);
-            background: #fff;
-            border: 1px solid #fecaca;
-        }
-
-        .delete-data-button:hover {
-            background: #fef2f2;
-        }
-
-        .delete-form {
-            display: inline-flex;
+        h1 {
             margin: 0;
+            color: var(--navy);
+            font-size: 26px;
+            font-weight: 850;
+            letter-spacing: -.5px;
         }
 
-        .detail {
-            border-top: 1px solid #edf1f6;
-            padding: 16px 20px 18px;
-            background: #fcfdff;
-        }
-
-        .detail-header {
-            margin-bottom: 12px;
-        }
-
-        .detail-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #334155;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: .7px;
-        }
-
-        .detail-title span {
-            color: var(--room-color);
-            font-size: 15px;
-        }
-
-        .document-list {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: stretch;
-            gap: 8px;
-        }
-
-        .document {
-            display: inline-flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            min-height: 36px;
-            padding: 7px 10px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            max-width: 100%;
-        }
-
-        .document-name {
-            color: #475569;
-            font-size: 11px;
-            font-weight: 600;
-            overflow-wrap: anywhere;
-        }
-
-        .pdf-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5px 8px;
-            border-radius: 6px;
-            background: #eff6ff;
-            color: #1d4ed8;
-            text-decoration: none;
-            font-size: 10px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .pdf-link:hover {
-            background: #dbeafe;
-        }
-
-        .not-available {
-            color: #cbd5e1;
+        .subtitle {
+            margin: 5px 0 0;
+            color: var(--muted);
             font-size: 12px;
         }
 
-        .certificate {
-            background: #f0fdf4;
-            border-color: #dcfce7;
-        }
-
-        .certificate .document-name {
-            color: #166534;
-        }
-
-        .certificate .pdf-link {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .certificate .pdf-link:hover {
-            background: #bbf7d0;
-        }
-
-        .delete-button {
-            width: 23px;
-            height: 23px;
-            border: 1px solid #fecaca;
-            border-radius: 6px;
-            background: #fff1f2;
-            color: #dc2626;
-            font-size: 15px;
-            line-height: 1;
-            cursor: pointer;
-        }
-
-        .delete-button:hover {
-            background: #fee2e2;
-        }
-
-        .add-certificate {
+        .btn {
+            min-height: 37px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-top: 12px;
-            padding: 8px 11px;
-            color: #15803d;
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 7px;
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 700;
+            justify-content: center;
+            gap: 7px;
+            padding: 9px 14px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 750;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: .18s ease;
         }
 
-        .add-certificate:hover {
-            background: #dcfce7;
+        .btn:hover {
+            transform: translateY(-1px);
         }
 
-        .empty {
-            text-align: center;
-            padding: 56px 20px;
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #2874ff, #1454d5);
+            box-shadow: 0 4px 10px #1764f526;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #155fe9, #1045b5);
+        }
+
+        .btn-light {
+            color: #355578;
+            background: white;
+            border-color: var(--border);
+        }
+
+        .alert {
+            flex-shrink: 0;
+            padding: 10px 14px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .alert-success {
+            color: #087657;
+            background: #e5f8ef;
+            border: 1px solid #bcebd5;
+        }
+
+        .alert-error {
+            color: #bd304e;
+            background: #fff0f3;
+            border: 1px solid #ffd5de;
+        }
+
+        /* PANEL PENCARIAN TETAP */
+
+        .filter-panel {
+            padding: 15px 18px;
             background: white;
             border: 1px solid var(--border);
             border-radius: 12px;
-            color: var(--muted);
+            box-shadow: 0 4px 14px #1b3b6308;
         }
 
-        .empty-icon {
-            width: 52px;
-            height: 52px;
-            margin: 0 auto 14px;
-            display: grid;
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 12px;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 850;
+        }
+
+        .section-icon {
+            width: 30px;
+            height: 30px;
+            display: inline-grid;
             place-items: center;
-            border-radius: 14px;
-            background: #eff6ff;
+            flex-shrink: 0;
             color: var(--blue);
-            font-size: 23px;
+            background: var(--blue-light);
+            border-radius: 8px;
+            font-size: 16px;
         }
 
-        .empty h3 {
-            font-size: 17px;
+        .filter-grid {
+            display: grid;
+            grid-template-columns: minmax(200px, 1.2fr) minmax(200px, 1fr) auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #536b8a;
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        .control {
+            width: 100%;
+            height: 41px;
+            padding: 0 12px;
             color: var(--text);
-        }
-
-        .empty p {
-            margin-top: 7px;
+            background: #fbfcff;
+            border: 1px solid #d9e4f2;
+            border-radius: 8px;
+            outline: none;
             font-size: 13px;
         }
 
-        @media (max-width: 1000px) {
-            .card-main {
-                grid-template-columns: minmax(220px, 1.5fr) minmax(120px, 1fr) minmax(100px, 1fr);
-                gap: 16px;
+        .control:focus {
+            background: white;
+            border-color: #6d9eff;
+            box-shadow: 0 0 0 3px #1764f51c;
+        }
+
+        .search-wrap {
+            position: relative;
+        }
+
+        .search-wrap .control {
+            padding-left: 37px;
+        }
+
+        .search-symbol {
+            position: absolute;
+            top: 50%;
+            left: 13px;
+            color: #6d83a3;
+            font-size: 17px;
+            transform: translateY(-50%);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        /* PANEL TABEL MEMENUHI RUANG YANG TERSISA */
+
+        .table-panel {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #1b3b6308;
+        }
+
+        .table-heading {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 13px 18px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-heading-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-heading h2 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 15px;
+            font-weight: 850;
+        }
+
+        .table-heading p {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .count-badge {
+            padding: 8px 11px;
+            color: #1556ca;
+            background: #eaf1ff;
+            border: 1px solid #d4e3ff;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 850;
+            white-space: nowrap;
+        }
+
+        /* INI SATU-SATUNYA AREA SCROLL VERTIKAL */
+
+        .table-scroll {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            scrollbar-color: #9bb4d6 #edf2fa;
+            padding: 0 12px;
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .table-scroll::-webkit-scrollbar-track {
+            background: #edf2fa;
+        }
+
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: #9bb4d6;
+            border-radius: 10px;
+        }
+
+        .table-scroll::-webkit-scrollbar-thumb:hover {
+            background: #6489bb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            text-align: left;
+        }
+
+        thead {
+            background: linear-gradient(100deg, #103968, #17538f);
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            padding: 13px 12px;
+            color: white;
+            background: #103968;
+            border-bottom: 1px solid #244f7d;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        thead th:first-child {
+            border-radius: 7px 0 0 7px;
+        }
+
+        thead th:last-child {
+            border-radius: 0 7px 7px 0;
+        }
+
+        td {
+            padding: 11px 12px;
+            color: #435a77;
+            border-bottom: 1px solid #eaf0f7;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8faff;
+        }
+
+        tbody tr:hover {
+            background: #edf4ff;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .row-number {
+            width: 45px;
+            color: #7286a2;
+            font-weight: 800;
+        }
+
+        .person-cell {
+            min-width: 225px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .person-avatar {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            color: #1459da;
+            background: linear-gradient(135deg, #e6eeff, #c9dcff);
+            border: 1px solid #d0dfff;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .person-name {
+            display: block;
+            margin-bottom: 4px;
+            color: #263e5e;
+            font-size: 12px;
+            font-weight: 850;
+            line-height: 1.45;
+        }
+
+        .person-nip {
+            display: block;
+            color: #8393aa;
+            font-size: 11px;
+        }
+
+        .unit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border: 1px solid #d5e3ff;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 850;
+            white-space: nowrap;
+        }
+
+        .unit-badge::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: currentColor;
+            border-radius: 50%;
+        }
+
+        .job-text {
+            min-width: 100px;
+            color: #526782;
+            font-weight: 650;
+        }
+
+        .doc-badges {
+            min-width: 150px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .doc-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 7px;
+            color: #48617e;
+            background: #eef3fb;
+            border: 1px solid #e0e8f5;
+            border-radius: 6px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .doc-badge.blue {
+            color: #145de0;
+            background: #e8f0ff;
+            border-color: #d7e5ff;
+        }
+
+        .doc-badge.orange {
+            color: #d97512;
+            background: #fff1e2;
+            border-color: #ffe1c2;
+        }
+
+        .doc-badge.green {
+            color: #078466;
+            background: #e2f8ef;
+            border-color: #c7efdf;
+        }
+
+        .action-cell {
+            min-width: 145px;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            display: inline-grid;
+            place-items: center;
+            color: white;
+            background: var(--blue);
+            border: 1px solid var(--blue);
+            border-radius: 7px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        .action-btn:hover {
+            filter: brightness(.9);
+            transform: translateY(-1px);
+        }
+
+        .action-btn.edit {
+            background: var(--purple);
+            border-color: var(--purple);
+        }
+
+        .action-btn.delete {
+            background: var(--red);
+            border-color: var(--red);
+        }
+
+        .action-buttons form {
+            margin: 0;
+        }
+
+        .pagination-info {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 11px 18px;
+            color: var(--muted);
+            background: #fbfcff;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+        }
+
+        .empty-state {
+            padding: 42px 15px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 53px;
+            height: 53px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 12px;
+            color: var(--blue);
+            background: #e8f0ff;
+            border-radius: 15px;
+            font-size: 25px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 7px;
+            color: var(--navy);
+            font-size: 16px;
+        }
+
+        /* DETAIL DOKUMEN */
+
+        .document-source {
+            padding: 12px;
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: #071e3b9c;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-backdrop.show {
+            display: flex;
+        }
+
+        .modal {
+            width: min(760px, 100%);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: white;
+            border: 1px solid #dbe6f4;
+            border-radius: 15px;
+            box-shadow: 0 24px 80px #061d3c50;
+        }
+
+        .modal-header {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 19px 22px;
+            color: white;
+            background: linear-gradient(115deg, #0c315b, #1b5ba0);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 850;
+        }
+
+        .modal-header p {
+            margin: 5px 0 0;
+            color: #d0e2f8;
+            font-size: 12px;
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: #ffffff20;
+            border: 1px solid #ffffff35;
+            border-radius: 8px;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 19px 22px 23px;
+            overflow-y: auto;
+        }
+
+        .modal-section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0 11px;
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 850;
+        }
+
+        .modal-section-title .section-icon {
+            width: 27px;
+            height: 27px;
+        }
+
+        .document-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+        }
+
+        .document-item {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #fbfcff;
+            border: 1px solid #e0e9f5;
+            border-radius: 9px;
+            transition: .15s;
+        }
+
+        .document-item:hover {
+            background: #f1f6ff;
+            border-color: #cbdcff;
+        }
+
+        .document-icon {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            color: var(--blue);
+            background: #e7efff;
+            border-radius: 9px;
+            font-size: 17px;
+        }
+
+        .document-icon.green {
+            color: var(--green);
+            background: #ddf7ed;
+        }
+
+        .document-icon.purple {
+            color: var(--purple);
+            background: #eee6ff;
+        }
+
+        .document-icon.orange {
+            color: var(--orange);
+            background: #fff0dd;
+        }
+
+        .document-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .document-name {
+            display: block;
+            color: #344d6d;
+            font-size: 12px;
+            font-weight: 850;
+            overflow-wrap: anywhere;
+        }
+
+        .document-status {
+            display: block;
+            margin-top: 4px;
+            color: #8a98ac;
+            font-size: 10px;
+        }
+
+        .document-status.available {
+            color: var(--green);
+        }
+
+        .document-status.unavailable {
+            color: var(--red);
+        }
+
+        .document-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 10px;
+            color: white;
+            background: var(--blue);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .document-link:hover {
+            background: #124dc9;
+        }
+
+        .document-empty {
+            grid-column: 1 / -1;
+            padding: 17px;
+            color: #7b8da6;
+            background: #f8faff;
+            border: 1px dashed #d5e1f0;
+            border-radius: 9px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .modal-add-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 11px;
+        }
+
+        .modal-divider {
+            height: 1px;
+            margin: 19px 0;
+            background: #e6edf7;
+        }
+
+        @media (min-width: 1450px) {
+            .page {
+                padding-left: 34px;
+                padding-right: 34px;
             }
 
-            .actions {
+            td {
+                padding-top: 13px;
+                padding-bottom: 13px;
+            }
+        }
+
+        @media (max-width: 1050px) {
+            .page {
+                padding: 17px 15px 14px;
+                gap: 11px;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .filter-actions {
                 grid-column: 1 / -1;
                 justify-content: flex-end;
+            }
+
+            .top-search {
+                margin-left: 5px;
             }
         }
 
         @media (max-width: 650px) {
-            .navbar {
-                min-height: 58px;
-                padding: 0 14px;
-            }
-
-            .navbar h2 {
-                font-size: 15px;
-            }
-
-            .brand {
+            .topbar {
+                padding: 9px 12px;
                 gap: 8px;
             }
 
-            .brand-icon {
-                width: 32px;
-                height: 32px;
+            .brand-name {
+                display: none;
             }
 
-            .back-button {
-                padding: 8px 9px;
-                font-size: 11px;
+            .top-search {
+                width: 100%;
+                margin-left: 0;
             }
 
-            .container {
-                padding: 20px 12px 28px;
+            .top-user {
+                gap: 5px;
             }
 
-            .page-header {
+            .top-user>span {
+                display: none;
+            }
+
+            .page {
+                padding: 13px 10px 10px;
+                gap: 10px;
+            }
+
+            .page-heading {
                 align-items: flex-start;
-                flex-direction: column;
-                gap: 14px;
             }
 
-            .page-title {
-                gap: 11px;
-            }
-
-            .page-icon {
+            .heading-icon {
                 width: 42px;
                 height: 42px;
             }
 
-            .page-header h1 {
-                font-size: 22px;
+            h1 {
+                font-size: 21px;
             }
 
-            .page-header p {
-                font-size: 12px;
+            .subtitle {
+                max-width: 230px;
+                line-height: 1.5;
             }
 
-            .add-button {
-                width: 100%;
+            .page-heading>.btn {
+                padding: 9px;
+                font-size: 10px;
             }
 
             .filter-panel {
-                padding: 10px;
+                padding: 12px;
             }
 
-            .filter-form {
-                flex-direction: column;
-                align-items: stretch;
+            .filter-grid {
+                grid-template-columns: 1fr;
             }
 
-            .search-box,
-            .room-filter {
-                width: 100%;
-                max-width: none;
+            .filter-actions {
+                grid-column: auto;
             }
 
-            .card-main {
-                grid-template-columns: 1fr 1fr;
-                gap: 16px 12px;
-                padding: 16px 14px;
+            .table-heading {
+                padding: 11px;
             }
 
-            .person {
-                grid-column: 1 / -1;
-            }
-
-            .person-name {
-                font-size: 13px;
-            }
-
-            .actions {
-                grid-column: 1 / -1;
-                justify-content: stretch;
-            }
-
-            .actions>.edit-button,
-            .delete-form {
-                flex: 1;
-            }
-
-            .delete-form .delete-data-button {
-                width: 100%;
-            }
-
-            .detail {
-                padding: 14px;
+            .table-scroll {
+                padding: 0 7px;
             }
 
             .document-list {
-                gap: 7px;
+                grid-template-columns: 1fr;
             }
 
-            .document {
-                flex: 0 1 auto;
+            .pagination-info {
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
+        @media (max-height: 720px) and (min-width: 651px) {
+            .page {
+                padding-top: 12px;
+                padding-bottom: 10px;
+                gap: 9px;
+            }
 
-            *,
-            *::before,
-            *::after {
-                transition: none !important;
+            .page-heading {
+                min-height: 54px;
+            }
+
+            .heading-icon {
+                width: 43px;
+                height: 43px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .filter-panel {
+                padding: 11px 15px;
+            }
+
+            .section-heading {
+                margin-bottom: 8px;
+            }
+
+            .control {
+                height: 36px;
+            }
+
+            .table-heading {
+                padding: 10px 15px;
+            }
+
+            th {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            td {
+                padding-top: 8px;
+                padding-bottom: 8px;
+            }
+
+            .person-avatar {
+                width: 34px;
+                height: 34px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="brand">
-            <div class="brand-icon">K</div>
-            <h2>Komite Keperawatan</h2>
-        </div>
-        <a href="{{ url('/dashboard') }}" class="back-button">← Dashboard</a>
-    </div>
 
-    <main class="container">
-        <header class="page-header">
-            <div class="page-title">
-                <div class="page-icon">♙</div>
-                <div>
-                    <h1>Data Personal</h1>
-                    <p>Kelola data personal tenaga keperawatan</p>
-                </div>
-            </div>
-            <a href="{{ route('data-personal.create') }}" class="add-button">
-                <span>＋</span> Tambah Data
-            </a>
-        </header>
+    <header class="topbar">
+        <div class="brand-icon">✚</div>
+
+        <div class="brand-name">
+            Komite Keperawatan
+            <small>Rumah Sakit</small>
+        </div>
+
+        <div class="top-search">
+            <span>⌕</span>
+            <input id="topSearch" type="text" placeholder="Cari nama, NIP, jabatan..." autocomplete="off">
+        </div>
+
+        <div class="top-user">
+            <div class="user-avatar">AD</div>
+            <span>Admin　⌄</span>
+        </div>
+    </header>
+
+    <main class="page">
 
         @if(session('success'))
-            <div class="success"><span>✓</span>{{ session('success') }}</div>
+            <div class="alert alert-success">
+                ✓ {{ session('success') }}
+            </div>
         @endif
 
-        <section class="filter-panel">
-            <form action="{{ route('data-personal.index') }}" method="GET" class="filter-form">
-                <div class="search-box">
-                    <span class="search-icon">⌕</span>
-                    <input type="text" id="searchInput" name="search" value="{{ request('search') }}"
-                        placeholder="Cari nama tenaga keperawatan..." autocomplete="off">
+        @if(session('error'))
+            <div class="alert alert-error">
+                ! {{ session('error') }}
+            </div>
+        @endif
+
+        <section class="page-heading">
+            <div class="heading-left">
+                <div class="heading-icon">♙</div>
+
+                <div>
+                    <p class="eyebrow">DATA PERSONAL</p>
+                    <h1>Data Personal</h1>
+                    <p class="subtitle">
+                        Kelola data tenaga keperawatan dan kelengkapan dokumen secara terstruktur.
+                    </p>
                 </div>
-                <div class="room-filter">
-                    <select name="unit_kerja" onchange="this.form.submit()">
-                        <option value="">Semua Ruangan</option>
-                        @foreach([
-                                'K IRI' => 'K IRI',
-                                'MPP' => 'MPP',
-                                'MUTU' => 'MUTU',
-                                'PPI' => 'PPI',
-                                'Catleya' => 'Catleya',
-                                'Alamanda' => 'Alamanda',
-                                'Gardenia' => 'Gardenia',
-                                'Tulip HCU/Kamelia NIKU' => 'Tulip HCU/Kamelia NIKU',
-                                'HD' => 'HD',
-                                'IRJ' => 'IRJ',
-                                'IBS' => 'IBS',
-                                'ICU' => 'ICU',
-                                'IGD' => 'IGD',
-                                'Mawar' => 'Mawar',
-                                'Amarylis' => 'Amarylis'
-                            ] as $value => $label)
-                            <option value="{{ $value }}" {{ request('unit_kerja') == $value ? 'selected' : '' }}>
-                                {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
+            </div>
+
+            <a href="{{ route('data-personal.create') }}" class="btn btn-primary">
+                ＋ Tambah Data Personal
+            </a>
+        </section>
+
+        <section class="filter-panel">
+            <div class="section-heading">
+                <span class="section-icon">⌕</span>
+                Pencarian dan Filter Data
+            </div>
+
+            <form action="{{ route('data-personal.index') }}" method="GET" id="filterForm">
+                <div class="filter-grid">
+
+                    <div class="field">
+                        <label for="search">Cari Data Personal</label>
+
+                        <div class="search-wrap">
+                            <span class="search-symbol">⌕</span>
+
+                            <input class="control" type="text" id="search" name="search" value="{{ request('search') }}"
+                                placeholder="Cari nama, NIP, atau jabatan..." autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="unit_kerja">Unit Kerja</label>
+
+                        <select class="control" id="unit_kerja" name="unit_kerja">
+                            <option value="">Semua Unit Kerja</option>
+
+                            @foreach([
+                                    'K IRI',
+                                    'MPP',
+                                    'MUTU',
+                                    'PPI',
+                                    'Catleya',
+                                    'Alamanda',
+                                    'Gardenia',
+                                    'Tulip HCU/Kamelia NIKU',
+                                    'HD',
+                                    'IRJ',
+                                    'IBS',
+                                    'ICU',
+                                    'IGD',
+                                    'Mawar',
+                                    'Amarylis'
+                                ] as $unit)
+                                <option value="{{ $unit }}" {{ request('unit_kerja') === $unit ? 'selected' : '' }}>
+                                    {{ $unit }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" type="submit">
+                            ⌕ Cari
+                        </button>
+
+                        <a href="{{ route('data-personal.index') }}" class="btn btn-light">
+                            ↺ Reset
+                        </a>
+                    </div>
+
                 </div>
             </form>
         </section>
 
-        <section class="data-scroll">
-            @forelse($dataPersonals as $data)
-                @php
-                    $roomClass = match ($data->unit_kerja) {
-                        'K IRI' => 'room-k-iri',
-                        'MPP' => 'room-mpp',
-                        'MUTU' => 'room-mutu',
-                        'PPI' => 'room-ppi',
-                        'Catleya' => 'room-catleya',
-                        'Alamanda' => 'room-alamanda',
-                        'Gardenia' => 'room-gardenia',
-                        'Tulip HCU/Kamelia NIKU' => 'room-tulip',
-                        'HD' => 'room-hd',
-                        'IRJ' => 'room-irj',
-                        'IBS' => 'room-ibs',
-                        'ICU' => 'room-icu',
-                        'IGD' => 'room-igd',
-                        'Mawar' => 'room-mawar',
-                        'Amarylis' => 'room-amarylis',
-                        default => 'room-empty',
-                    };
-                @endphp
+        <section class="table-panel">
 
-                <article class="personal-card {{ $roomClass }}">
-                    <div class="card-main">
-                        <div class="person">
-                            <div class="avatar">{{ strtoupper(substr($data->nama ?: 'N', 0, 1)) }}</div>
-                            <div style="min-width:0">
-                                <div class="person-name">{{ $data->nama ?: 'Nama belum diisi' }}</div>
-                                <div class="person-unit">{{ $data->unit_kerja ?: 'Unit kerja belum diisi' }}</div>
-                            </div>
-                        </div>
+            <div class="table-heading">
+                <div class="table-heading-left">
+                    <span class="section-icon">▤</span>
 
-                        <div>
-                            <div class="info-label">NIP</div>
-                            <div class="info-value">{{ $data->nip ?: '-' }}</div>
-                        </div>
-
-                        <div>
-                            <div class="info-label">Jabatan</div>
-                            <div class="info-value">{{ $data->jabatan ?: '-' }}</div>
-                        </div>
-
-                        <div class="actions">
-                            <a href="{{ route('data-personal.edit', $data->id) }}" class="edit-button">Edit</a>
-                            <form action="{{ route('data-personal.destroy', $data->id) }}" method="POST" class="delete-form"
-                                onsubmit="return confirm('Yakin ingin menghapus data personal ini beserta dokumen dan sertifikat terkait?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="delete-data-button">Hapus</button>
-                            </form>
-                        </div>
+                    <div>
+                        <h2>Daftar Tenaga Keperawatan</h2>
+                        <p>Data personal, unit kerja, jabatan, dan ringkasan dokumen.</p>
                     </div>
-
-                    <div class="detail">
-                        <div class="detail-header">
-                            <div class="detail-title"><span>▣</span> Dokumen & Sertifikat</div>
-                        </div>
-
-                        <div class="document-list">
-                            @foreach([
-                                    'ijazah' => 'Ijazah',
-                                    'str' => 'STR',
-                                    'sipp_sipb' => 'SIPP/SIPB',
-                                    'spk_rkk' => 'SPK/RKK',
-                                    'proses_kredensial' => 'Kredensial',
-                                    'sk_penempatan_kerja' => 'SK Penempatan',
-                                    'uraian_tugas' => 'Uraian Tugas'
-                                ] as $field => $label)
-                                <div class="document">
-                                    <span class="document-name">{{ $label }}</span>
-                                    @if($data->{$field})
-                                        <a href="{{ route('data-personal.document', [$data->id, $field]) }}" target="_blank"
-                                            rel="noopener noreferrer" class="pdf-link">
-                                            Buka PDF
-                                        </a>
-                                    @else
-                                        <span class="not-available">Belum tersedia</span>
-                                    @endif
-                                </div>
-                            @endforeach
-
-                            @if($data->oppe)
-                                <div class="document">
-                                    <span class="document-name">OPPE (Dokumen Lama)</span>
-                                    <a href="{{ route('data-personal.document', [$data->id, 'oppe']) }}" target="_blank"
-                                        rel="noopener noreferrer" class="pdf-link">
-                                        Buka PDF
-                                    </a>
-                                </div>
-                            @endif
-
-                            @foreach($data->oppes as $oppe)
-                                <div class="document">
-                                    <span class="document-name">{{ $oppe->nama_oppe }}</span>
-
-                                    @if($oppe->link_oppe)
-                                        <a href="{{ route('oppe.file', $oppe->id) }}" target="_blank" rel="noopener noreferrer"
-                                            class="pdf-link">
-                                            Buka Link OPPE
-                                        </a>
-                                    @elseif($oppe->file_oppe)
-                                        <a href="{{ route('oppe.file', $oppe->id) }}" target="_blank" rel="noopener noreferrer"
-                                            class="pdf-link">
-                                            Buka PDF
-                                        </a>
-                                    @else
-                                        <span class="not-available">File belum tersedia</span>
-                                    @endif
-
-                                    <form action="{{ route('oppe.destroy', $oppe->id) }}" method="POST" class="delete-form"
-                                        onsubmit="return confirm('Yakin ingin menghapus dokumen OPPE ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="delete-button" aria-label="Hapus OPPE">×</button>
-                                    </form>
-                                </div>
-                            @endforeach
-
-                            <div class="document">
-                                <span class="document-name"></span>
-                                <a href="{{ route('oppe.create', $data->id) }}" class="pdf-link">＋ Tambah OPPE</a>
-                            </div>
-
-                            @foreach($data->sertifikats as $sertifikat)
-                                <div class="document certificate">
-                                    <span class="document-name">{{ $sertifikat->nama_sertifikat }}</span>
-                                    <a href="{{ route('sertifikat.file', $sertifikat->id) }}" target="_blank"
-                                        rel="noopener noreferrer" class="pdf-link">
-                                        Buka PDF
-                                    </a>
-                                    <form action="{{ route('sertifikat.destroy', $sertifikat->id) }}" method="POST"
-                                        class="delete-form" onsubmit="return confirm('Yakin ingin menghapus sertifikat ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="delete-button" aria-label="Hapus sertifikat">×</button>
-                                    </form>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <a href="{{ route('sertifikat.create', $data->id) }}" class="add-certificate">
-                            ＋ Tambah Sertifikat
-                        </a>
-                    </div>
-                </article>
-            @empty
-                <div class="empty">
-                    <div class="empty-icon">♙</div>
-                    <h3>Belum Ada Data Personal</h3>
-                    <p>Silakan tambahkan data personal tenaga keperawatan.</p>
                 </div>
-            @endforelse
+
+                <span class="count-badge">
+                    <span id="totalData">{{ $dataPersonals->count() }}</span> Data
+                </span>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NO.</th>
+                            <th>DATA PERSONAL</th>
+                            <th>UNIT KERJA</th>
+                            <th>JABATAN</th>
+                            <th>DOKUMEN</th>
+                            <th>AKSI</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="staffTableBody">
+
+                        @forelse($dataPersonals as $data)
+
+                            @php
+                                $parts = preg_split('/\s+/', trim($data->nama ?? 'P'));
+
+                                $initial = strtoupper(
+                                    mb_substr($parts[0] ?? 'P', 0, 1) .
+                                    (isset($parts[1]) ? mb_substr($parts[1], 0, 1) : '')
+                                );
+
+                                $documents = [
+                                    ['field' => 'ijazah', 'label' => 'Ijazah', 'color' => 'blue'],
+                                    ['field' => 'str', 'label' => 'STR', 'color' => 'green'],
+                                    ['field' => 'sipp_sipb', 'label' => 'SIPP / SIPB', 'color' => 'purple'],
+                                    ['field' => 'spk_rkk', 'label' => 'SPK / RKK', 'color' => 'orange'],
+                                    ['field' => 'proses_kredensial', 'label' => 'Proses Kredensial', 'color' => 'purple'],
+                                    ['field' => 'sk_penempatan_kerja', 'label' => 'SK Penempatan Kerja', 'color' => 'green'],
+                                    ['field' => 'uraian_tugas', 'label' => 'Uraian Tugas', 'color' => 'orange'],
+                                ];
+
+                                $documentCount = collect($documents)
+                                    ->filter(fn($doc) => !empty($data->{$doc['field']}))
+                                    ->count();
+
+                                $oppeCount = $data->oppes ? $data->oppes->count() : 0;
+                                $certificateCount = $data->sertifikats ? $data->sertifikats->count() : 0;
+
+                                $unitColor = match ($data->unit_kerja) {
+                                    'K IRI' => '#1764f5',
+                                    'MPP' => '#8051e8',
+                                    'MUTU' => '#0e9f91',
+                                    'PPI' => '#0d9488',
+                                    'Catleya' => '#f28a25',
+                                    'Alamanda' => '#d946a6',
+                                    'Gardenia' => '#65a30d',
+                                    'Tulip HCU/Kamelia NIKU' => '#9b4fd3',
+                                    'HD' => '#0891b2',
+                                    'IRJ' => '#ea7b20',
+                                    'IBS' => '#7c5ce0',
+                                    'ICU' => '#e04463',
+                                    'IGD' => '#f04463',
+                                    'Mawar' => '#d946a6',
+                                    'Amarylis' => '#65a30d',
+                                    default => '#1764f5',
+                                };
+                            @endphp
+
+                            <tr>
+                                <td class="row-number">{{ $loop->iteration }}</td>
+
+                                <td>
+                                    <div class="person-cell">
+                                        <div class="person-avatar">{{ $initial }}</div>
+
+                                        <div>
+                                            <span class="person-name">{{ $data->nama }}</span>
+                                            <span class="person-nip">
+                                                NIP: {{ $data->nip ?: 'Belum diisi' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="unit-badge"
+                                        style="color:{{ $unitColor }};background:{{ $unitColor }}12;border-color:{{ $unitColor }}30">
+                                        {{ $data->unit_kerja ?: 'Belum diisi' }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="job-text">
+                                        {{ $data->jabatan ?: 'Belum diisi' }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="doc-badges">
+                                        <span class="doc-badge blue">
+                                            ▤ {{ $documentCount }} Dokumen
+                                        </span>
+
+                                        <span class="doc-badge orange">
+                                            ▧ {{ $oppeCount }} OPPE
+                                        </span>
+
+                                        <span class="doc-badge green">
+                                            ✧ {{ $certificateCount }} Sertifikat
+                                        </span>
+                                    </div>
+                                </td>
+
+                                <td class="action-cell">
+                                    <div class="action-buttons">
+
+                                        <button type="button" class="action-btn" title="Lihat dokumen"
+                                            aria-label="Lihat dokumen {{ $data->nama }}"
+                                            onclick="openDocuments('documents-{{ $data->id }}')">
+                                            ◉
+                                        </button>
+
+                                        <a href="{{ route('data-personal.edit', $data->id) }}" class="action-btn edit"
+                                            title="Edit data" aria-label="Edit {{ $data->nama }}">
+                                            ✎
+                                        </a>
+
+                                        <form action="{{ route('data-personal.destroy', $data->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus data personal ini?')">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button class="action-btn delete" type="submit" title="Hapus data"
+                                                aria-label="Hapus {{ $data->nama }}">
+                                                ×
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr id="documents-{{ $data->id }}" hidden>
+                                <td colspan="6">
+                                    <div class="document-source">
+
+                                        <div class="modal-section-title">
+                                            <span class="section-icon">▤</span>
+                                            Dokumen Kepegawaian
+                                        </div>
+
+                                        <div class="document-list">
+
+                                            @foreach($documents as $doc)
+                                                <div class="document-item">
+
+                                                    <span class="document-icon {{ $doc['color'] }}">
+                                                        ▤
+                                                    </span>
+
+                                                    <div class="document-info">
+                                                        <span class="document-name">
+                                                            {{ $doc['label'] }}
+                                                        </span>
+
+                                                        <span
+                                                            class="document-status {{ $data->{$doc['field']} ? 'available' : 'unavailable' }}">
+                                                            {{ $data->{$doc['field']} ? '● Dokumen tersedia' : '● Belum tersedia' }}
+                                                        </span>
+                                                    </div>
+
+                                                    @if($data->{$doc['field']})
+                                                        <a class="document-link"
+                                                            href="{{ route('data-personal.document', [$data->id, $doc['field']]) }}"
+                                                            target="_blank" rel="noopener noreferrer">
+                                                            Buka ↗
+                                                        </a>
+                                                    @endif
+
+                                                </div>
+                                            @endforeach
+
+                                            @if($data->oppe)
+                                                <div class="document-item">
+                                                    <span class="document-icon purple">▧</span>
+
+                                                    <div class="document-info">
+                                                        <span class="document-name">OPPE Lama</span>
+                                                        <span class="document-status available">
+                                                            ● Dokumen tersedia
+                                                        </span>
+                                                    </div>
+
+                                                    <a class="document-link"
+                                                        href="{{ route('data-personal.document', [$data->id, 'oppe']) }}"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        Buka ↗
+                                                    </a>
+                                                </div>
+                                            @endif
+
+                                        </div>
+
+                                        <div class="modal-divider"></div>
+
+                                        <div class="modal-section-title">
+                                            <span class="section-icon" style="color:var(--orange);background:#fff0dd">
+                                                ▧
+                                            </span>
+                                            Dokumen OPPE
+                                        </div>
+
+                                        <div class="document-list">
+
+                                            @forelse($data->oppes as $oppe)
+                                                <div class="document-item">
+
+                                                    <span class="document-icon orange">▧</span>
+
+                                                    <div class="document-info">
+                                                        <span class="document-name">
+                                                            {{ $oppe->nama_file ?? 'Dokumen OPPE' }}
+                                                        </span>
+
+                                                        <span class="document-status available">
+                                                            ● File evaluasi kinerja
+                                                        </span>
+                                                    </div>
+
+                                                    <a class="document-link" href="{{ route('oppe.file', $oppe->id) }}"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        Buka ↗
+                                                    </a>
+
+                                                </div>
+                                            @empty
+                                                <div class="document-empty">
+                                                    Belum ada dokumen OPPE tambahan.
+                                                </div>
+                                            @endforelse
+
+                                        </div>
+
+                                        <div class="modal-add-actions">
+                                            <a href="{{ route('oppe.create', $data->id) }}" class="btn btn-light">
+                                                ＋ Tambah OPPE
+                                            </a>
+                                        </div>
+
+                                        <div class="modal-divider"></div>
+
+                                        <div class="modal-section-title">
+                                            <span class="section-icon" style="color:var(--green);background:#def7ed">
+                                                ✧
+                                            </span>
+                                            Sertifikat
+                                        </div>
+
+                                        <div class="document-list">
+
+                                            @forelse($data->sertifikats as $sertifikat)
+                                                <div class="document-item">
+
+                                                    <span class="document-icon green">✧</span>
+
+                                                    <div class="document-info">
+                                                        <span class="document-name">
+                                                            {{ $sertifikat->nama_sertifikat ?? 'Sertifikat' }}
+                                                        </span>
+
+                                                        <span class="document-status available">
+                                                            ● Dokumen sertifikat
+                                                        </span>
+                                                    </div>
+
+                                                    <a class="document-link"
+                                                        href="{{ route('sertifikat.file', $sertifikat->id) }}" target="_blank"
+                                                        rel="noopener noreferrer">
+                                                        Buka ↗
+                                                    </a>
+
+                                                </div>
+                                            @empty
+                                                <div class="document-empty">
+                                                    Belum ada sertifikat yang ditambahkan.
+                                                </div>
+                                            @endforelse
+
+                                        </div>
+
+                                        <div class="modal-add-actions">
+                                            <a href="{{ route('sertifikat.create', $data->id) }}" class="btn btn-light">
+                                                ＋ Tambah Sertifikat
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        @empty
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">⌕</div>
+                                        <h3>Data Tidak Ditemukan</h3>
+                                        <p>
+                                            Belum ada data yang cocok dengan pencarian atau filter Anda.
+                                        </p>
+
+                                        <a href="{{ route('data-personal.index') }}" class="btn btn-primary">
+                                            ↺ Tampilkan Semua Data
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-info">
+                <span>
+                    Menampilkan <strong id="shownData">{{ $dataPersonals->count() }}</strong>
+                    data personal
+                </span>
+
+                <span>Komite Keperawatan · Data Personal</span>
+            </div>
+
         </section>
+
     </main>
 
+    <!-- MODAL DETAIL DOKUMEN -->
+
+    <div class="modal-backdrop" id="documentModal" onclick="closeDocuments(event)">
+        <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+            <header class="modal-header">
+                <div>
+                    <h2 id="modalTitle">Dokumen Personal</h2>
+                    <p id="modalSubtitle">
+                        Dokumen kepegawaian, OPPE, dan sertifikat.
+                    </p>
+                </div>
+
+                <button type="button" class="modal-close" onclick="hideDocuments()" aria-label="Tutup">
+                    ×
+                </button>
+            </header>
+
+            <div class="modal-body" id="modalBody"></div>
+        </section>
+    </div>
+
     <script>
-        (() => {
-            const searchInput = document.getElementById('searchInput');
-            const dataScroll = document.querySelector('.data-scroll');
-            const roomSelect = document.querySelector('[name="unit_kerja"]');
-            let searchTimer;
-            let activeRequest;
+        function openDocuments(sourceId) {
+            const source = document.getElementById(sourceId);
+            const modal = document.getElementById('documentModal');
+            const body = document.getElementById('modalBody');
 
-            searchInput.addEventListener('input', () => {
-                clearTimeout(searchTimer);
+            if (!source || !modal || !body) return;
 
-                searchTimer = setTimeout(async () => {
-                    const url = new URL(window.location.href);
-                    const searchValue = searchInput.value.trim();
-                    const unitKerja = roomSelect.value;
+            const personRow = source.previousElementSibling;
+            const personName = personRow
+                ? personRow.querySelector('.person-name')
+                : null;
 
-                    if (searchValue) url.searchParams.set('search', searchValue);
-                    else url.searchParams.delete('search');
+            const sourceContent = source.querySelector('.document-source');
 
-                    if (unitKerja) url.searchParams.set('unit_kerja', unitKerja);
-                    else url.searchParams.delete('unit_kerja');
+            if (!sourceContent) return;
 
-                    if (activeRequest) activeRequest.abort();
-                    activeRequest = new AbortController();
+            body.innerHTML = sourceContent.innerHTML;
+
+            document.getElementById('modalTitle').textContent =
+                personName
+                    ? 'Dokumen: ' + personName.textContent.trim()
+                    : 'Dokumen Personal';
+
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideDocuments() {
+            document.getElementById('documentModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function closeDocuments(event) {
+            if (event.target.id === 'documentModal') {
+                hideDocuments();
+            }
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                hideDocuments();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('filterForm');
+            const searchInput = document.getElementById('search');
+            const topSearch = document.getElementById('topSearch');
+            const unitSelect = document.getElementById('unit_kerja');
+
+            let timer = null;
+            let controller = null;
+
+            async function searchData() {
+                clearTimeout(timer);
+
+                timer = setTimeout(async function () {
+                    if (controller) controller.abort();
+                    controller = new AbortController();
+
+                    const params = new URLSearchParams(new FormData(form));
+                    const url = form.action + '?' + params.toString();
 
                     try {
-                        const response = await fetch(url.toString(), {
-                            headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                            signal: activeRequest.signal
+                        const response = await fetch(url, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            signal: controller.signal
                         });
 
-                        if (!response.ok) throw new Error('Gagal memuat data.');
+                        if (!response.ok) {
+                            throw new Error('Pencarian gagal');
+                        }
 
                         const html = await response.text();
-                        const parsed = new DOMParser().parseFromString(html, 'text/html');
-                        const newData = parsed.querySelector('.data-scroll');
+                        const parsed = new DOMParser().parseFromString(
+                            html,
+                            'text/html'
+                        );
 
-                        if (newData) dataScroll.innerHTML = newData.innerHTML;
-                        window.history.replaceState({}, '', url.toString());
+                        const newBody = parsed.querySelector('#staffTableBody');
+                        const newTotal = parsed.querySelector('#totalData');
+                        const newShown = parsed.querySelector('#shownData');
+
+                        if (newBody) {
+                            document.getElementById('staffTableBody').innerHTML =
+                                newBody.innerHTML;
+                        }
+
+                        if (newTotal) {
+                            document.getElementById('totalData').textContent =
+                                newTotal.textContent;
+                        }
+
+                        if (newShown) {
+                            document.getElementById('shownData').textContent =
+                                newShown.textContent;
+                        }
+
+                        window.history.replaceState({}, '', url);
+
                     } catch (error) {
                         if (error.name !== 'AbortError') {
-                            console.error('Pencarian gagal:', error);
+                            console.error(error);
                         }
                     }
-                }, 350);
+                }, 300);
+            }
+
+            searchInput.addEventListener('input', function () {
+                topSearch.value = searchInput.value;
+                searchData();
             });
-        })();
+
+            topSearch.addEventListener('input', function () {
+                searchInput.value = topSearch.value;
+                searchData();
+            });
+
+            unitSelect.addEventListener('change', searchData);
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                searchData();
+            });
+        });
     </script>
+
 </body>
 
 </html>
