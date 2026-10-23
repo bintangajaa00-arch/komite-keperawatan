@@ -1154,8 +1154,7 @@
 
                             @foreach([
                                     'K IRI',
-                                    'MPP',
-                                    'MUTU',
+                                    'MUTU/MPP/Pengaduan',
                                     'PPI',
                                     'Catleya',
                                     'Alamanda',
@@ -1167,7 +1166,8 @@
                                     'ICU',
                                     'IGD',
                                     'Mawar',
-                                    'Amarylis'
+                                    'Amarylis',
+                                    'Supervisor'
                                 ] as $unit)
                                 <option value="{{ $unit }}" {{ request('unit_kerja') === $unit ? 'selected' : '' }}>
                                     {{ $unit }}
@@ -1691,3 +1691,6 @@
 </body>
 
 </html>
+
+
+

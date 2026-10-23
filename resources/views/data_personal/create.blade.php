@@ -642,13 +642,12 @@
                                     K IRI
                                 </option>
 
-                                <option value="MPP" {{ old('unit_kerja') == 'MPP' ? 'selected' : '' }}>
-                                    MPP
+
+                                <option value="MUTU/MPP/Pengaduan" {{ old('unit_kerja') == 'MUTU/MPP/Pengaduan' ? 'selected' : '' }}>
+                                    MUTU/MPP/Pengaduan
                                 </option>
 
-                                <option value="MUTU" {{ old('unit_kerja') == 'MUTU' ? 'selected' : '' }}>
-                                    MUTU
-                                </option>
+
 
                                 <option value="PPI" {{ old('unit_kerja') == 'PPI' ? 'selected' : '' }}>
                                     PPI
@@ -997,7 +996,7 @@
 
                     </div>
 
-                    
+
                 </div>
 
 
