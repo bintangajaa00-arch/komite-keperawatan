@@ -1425,9 +1425,13 @@
                                                             {{ $oppe->nama_file ?? 'Dokumen OPPE' }}
                                                         </span>
 
+
+
                                                         <span class="document-status available">
-                                                            ● File evaluasi kinerja
+                                                            ● {{ $oppe->nama_oppe ?? $oppe->nama_file ?? 'Dokumen OPPE' }}
                                                         </span>
+
+
                                                     </div>
 
                                                     <a class="document-link" href="{{ route('oppe.file', $oppe->id) }}"
@@ -1691,6 +1695,3 @@
 </body>
 
 </html>
-
-
-
